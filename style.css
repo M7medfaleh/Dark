@@ -1,323 +1,137 @@
-@-webkit-keyframes sunrise {
-	from {
-		transform: rotate(-45deg);
-	}
-
-	to {
-		transform: rotate(315deg);
-	}
-}
-
-@keyframes sunrise {
-	from {
-		transform: rotate(-45deg);
-	}
-
-	to {
-		transform: rotate(315deg);
-	}
-}
-
-@-webkit-keyframes moonrise {
-	from {
-		transform: rotate(0deg);
-	}
-
-	to {
-		transform: rotate(180deg);
-	}
-}
-
-@keyframes moonrise {
-	from {
-		transform: rotate(0deg);
-	}
-
-	to {
-		transform: rotate(180deg);
-	}
-}
-
-@-webkit-keyframes dawn {
-	0% {
-		opacity: 0;
-	}
-	10% {
-		opacity: 1;
-	}
-	60% {
-		opacity: 0;
-	}
-}
-
-@keyframes dawn {
-	0% {
-		opacity: 0;
-	}
-	10% {
-		opacity: 1;
-	}
-	60% {
-		opacity: 0;
-	}
-}
-
-@-webkit-keyframes noon {
-	0% {
-		opacity: 0;
-	}
-	50% {
-		opacity: 1;
-	}
-	75% {
-		opacity: 0;
-	}
-}
-
-@keyframes noon {
-	0% {
-		opacity: 0;
-	}
-	50% {
-		opacity: 1;
-	}
-	75% {
-		opacity: 0;
-	}
-}
-
-@-webkit-keyframes dusk {
-	0% {
-		opacity: 0;
-	}
-	50% {
-		opacity: 0;
-	}
-	70% {
-		opacity: 1;
-	}
-	90% {
-		opacity: 0;
-	}
-}
-
-@keyframes dusk {
-	0% {
-		opacity: 0;
-	}
-	50% {
-		opacity: 0;
-	}
-	70% {
-		opacity: 1;
-	}
-	90% {
-		opacity: 0;
-	}
-}
-
-@-webkit-keyframes midnight {
-	0% {
-		opacity: 1;
-	}
-	25% {
-		opacity: 0;
-	}
-	50% {
-		opacity: 0;
-	}
-	80% {
-		opacity: 1;
-	}
-}
-
-@keyframes midnight {
-	0% {
-		opacity: 1;
-	}
-	25% {
-		opacity: 0;
-	}
-	50% {
-		opacity: 0;
-	}
-	80% {
-		opacity: 1;
-	}
+*, *::after, *::before {
+  box-sizing: border-box;
 }
 
 body {
-	--animation-speed: 24s;
-	background-color: rgb(37, 29, 24);
+  background: #001933;
 }
 
-body.pause {
-	--animation-speed: 0;
+.container {
+  width: 75px;
+  height: 275px;
+  animation: bulb-swing 3s infinite ease-in-out;
+  transform-origin: top center;
+  position: absolute;
+  top: 0;
+  left: calc(50% - (75px/2));
 }
 
-.sky {
-	width: 100vw;
-	height: 100vh;
-	position: fixed;
-	top: 0;
-	left: 0;
-	max-height: 600px;
-	overflow: hidden;
+.container.paused {
+  animation-play-state: paused;
 }
 
-.sky__phase {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	transition: opacity 0.2s;
+.bulb {
+  z-index: 10;
+  display: block;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  position: absolute;
+  top: 200px;
+  left: calc(50% - (75px/2));
+  background: #FFD700;
+  box-shadow: 5px 5px 80px gold, 5px -5px 80px gold, -5px 5px 80px gold, -5px -5px 80px gold;
+  cursor: pointer;
+}
+.bulb::before {
+  content: "";
+  position: absolute;
+  width: 35px;
+  height: 50px;
+  background: black;
+  bottom: 100%;
+  left: calc(50% - (35px/2));
+  z-index: -1;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.bulb::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 250px;
+  background: black;
+  bottom: 100%;
+  left: calc(50% - 5px);
+  z-index: -1;
+}
+.bulb .filaments {
+  display: block;
+  position: absolute;
+  width: 2px;
+  height: 30px;
+  background: black;
+  top: 2px;
+  left: 28px;
+  box-shadow: 17px 0 black;
+  opacity: 0;
+}
+.bulb .filaments::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 4px;
+  background: black;
+  width: 2px;
+  height: 12px;
+  display: block;
+  box-shadow: 4.5px 0 black, 9px 0 black;
 }
 
-.sky__dawn {
-	background: linear-gradient(
-		0deg,
-		rgba(254, 215, 102, 1) 0%,
-		rgba(205, 237, 246, 1) 100%
-	);
-	-webkit-animation: linear dawn infinite var(--animation-speed);
-	        animation: linear dawn infinite var(--animation-speed);
+.bulb.off {
+  background: transparent;
+  box-shadow: none;
+  border: 1px solid black;
 }
 
-.sky__noon {
-	background: linear-gradient(
-		0deg,
-		rgba(205, 237, 246, 1) 0%,
-		rgba(36, 123, 160, 1) 100%
-	);
-	-webkit-animation: linear noon infinite var(--animation-speed);
-	        animation: linear noon infinite var(--animation-speed);
+.filaments.off {
+  opacity: 1;
 }
 
-.sky__dusk {
-	background: linear-gradient(
-		0deg,
-		rgba(255, 32, 110, 1) 0%,
-		rgba(10, 0, 94, 1) 100%
-	);
-	-webkit-animation: linear dusk infinite var(--animation-speed);
-	        animation: linear dusk infinite var(--animation-speed);
+@keyframes bulb-swing {
+  0% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(-10deg);
+  }
+}
+.floor {
+  position: absolute;
+  background: #000c19;
+  height: 200px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+}
+.floor .shadow {
+  position: absolute;
+  background: #524c11;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  top: calc(50% - 25px);
+  left: calc(50% - 25px);
+  box-shadow: 20px 20px 100px gold, -20px 20px 100px gold, 20px -20px 100px gold, -20px -20px 100px gold;
+  animation: shadow-swing 3s infinite ease-in-out;
 }
 
-.sky__midnight {
-	background: linear-gradient(
-		0deg,
-		rgba(2, 0, 20, 1) 0%,
-		rgba(10, 0, 94, 1) 100%
-	);
-	-webkit-animation: linear midnight infinite var(--animation-speed);
-	        animation: linear midnight infinite var(--animation-speed);
+.shadow.off {
+  background: #000c19;
+  box-shadow: none;
 }
 
-.orbit {
-	position: relative;
-	width: 500px;
-	height: 500px;
-	margin: 200px auto;
-	transform: rotate(-45deg);
-	-webkit-animation: linear sunrise infinite var(--animation-speed);
-	        animation: linear sunrise infinite var(--animation-speed);
-}
-
-@media (min-width: 768px) {
-	.sky {
-		max-height: 600px;
-	}
-	.orbit {
-		width: 700px;
-		height: 700px;
-		margin: 150px auto;
-	}
-}
-
-@media (min-width: 940px) {
-	.orbit {
-		width: 800px;
-		height: 800px;
-	}
-}
-
-@media (min-width: 1200px) {
-	body {
-		--animation-speed: 28s;
-	}
-	.orbit {
-		width: 1000px;
-		height: 1000px;
-		margin: 200px auto;
-	}
-}
-
-@media (min-width: 1500px) {
-	body {
-		--animation-speed: 30s;
-	}
-	.orbit {
-		width: 1300px;
-		height: 1300px;
-	}
-}
-
-.sun {
-	position: absolute;
-	top: -40px;
-	left: -40px;
-	width: 80px;
-	height: 80px;
-	background-color: rgb(254, 215, 102);
-	border-radius: 50%;
-	box-shadow: 0 0 14px 14px rgba(254, 215, 102, 0.2);
-}
-
-.moon {
-	position: absolute;
-	bottom: -40px;
-	right: -40px;
-	width: 80px;
-	height: 80px;
-	border-radius: 50%;
-	background-color: #fff;
-	box-shadow: 0 0 7px 7px rgba(255, 255, 255, 0.2);
-}
-
-#sky__stars > div {
-	width: 3px;
-	height: 3px;
-	background-color: #fff;
-	border-radius: 50%;
-	position: absolute;
-}
-
-#toggle-animation {
-	position: fixed;
-	bottom: 1em;
-	right: 1em;
-	text-transform: uppercase;
-	background-color: rgb(2, 0, 20);
-	color: #fff;
-	border: 0;
-	padding: 0.5em 1em;
-	letter-spacing: 0.5px;
-}
-
-#toggle-animation:hover {
-	background-color: rgb(61, 0, 21);
-	cursor: pointer;
-}
-
-.paused {
-	display: none;
-}
-
-.pause .paused {
-	display: block;
-}
-
-.pause .playing {
-	display: none;
+@keyframes shadow-swing {
+  0% {
+    transform: translateX(100px);
+  }
+  50% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(100px);
+  }
 }
